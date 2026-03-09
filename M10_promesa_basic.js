@@ -2,6 +2,8 @@
  * Codi que mostra el funcionament de la creació d'una promesa i el seu ús
  * @author sergi.grau@fje.edu
  * @version 1.0 20.11.2020
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  */
 let promesa = new Promise((resolve, reject) => {
     // Fem una crida a resolve (...) quan el que estàvem fent finalitza amb èxit, i reject (...) quan falla.

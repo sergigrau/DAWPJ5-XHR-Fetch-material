@@ -2,6 +2,8 @@
  * Codi que mostra el funcionament d'encadenament de funcions asíncrones
  * @author sergi.grau@fje.edu
  * @version 1.0 20.11.2020
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  */
 
 function divisioPromesa(a, b, ms = 500) {

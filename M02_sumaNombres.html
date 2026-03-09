@@ -11,68 +11,57 @@
 	06.12.2015
 	document comunicacions amb backend amb Node i AJAX
 
+	09.03.2026
+	- Actualització a NodeJS 24
+
 	NOTES
 	ORIGEN
     Desenvolupament Aplicacions Web. Jesuïtes el Clot
 	-->
-	<head>
-		<meta charset="utf-8" />
-		<title>DAW2</title>
-		<meta name="author" content="sergi grau" />
-		<script type="text/javascript">
-			var xhr;
 
-			function inici() {
-				try {
-					// Firefox, Opera 8.0+, Safari, Chrome
-					xhr = new XMLHttpRequest();
-				} catch (e) {
-					// Internet Explorer
-					try {
-						xhr = new ActiveXObject("Msxml2.XMLHTTP");
-						//ie6+
-					} catch (e) {
-						try {
-							xhr = new ActiveXObject("Microsoft.XMLHTTP");
-							//ie5
-						} catch (e) {
-							alert("El teu navegador no suporta AJAX!");
-							return false;
-						}
-					}
+<head>
+	<meta charset="utf-8" />
+	<title>DAW2</title>
+	<meta name="author" content="sergi grau" />
+	<script type="text/javascript">
+		let xhr;
+
+		function inici() {
+			xhr = new XMLHttpRequest();
+			document.getElementById("num1").onkeyup = function () {
+				ajaxFunction();
+			};
+			document.getElementById("num2").onkeyup = function () {
+				ajaxFunction();
+			};
+		}
+
+		function ajaxFunction() {
+
+			//callback
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					document.getElementById("operacions").innerHTML = xhr.responseText;
 				}
-				document.getElementById("num1").onkeyup = function() {
-					ajaxFunction();
-				};
-				document.getElementById("num2").onkeyup = function() {
-					ajaxFunction();
-				};
-			}
+			};
 
-			function ajaxFunction() {
+			xhr.open("GET", "operacions?num1="
+				+ document.getElementById("num1").value
+				+ "&num2="
+				+ document.getElementById("num2").value, true);
+			xhr.send(null);
+		}
 
-				//callback
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4) {
-						document.getElementById("operacions").innerHTML = xhr.responseText;
-					}
-				};
+		window.addEventListener("load", inici, true);
+	</script>
+</head>
 
-				xhr.open("GET", "operacions?num1="
-                         +document.getElementById("num1").value
-                         +"&num2="
-                         +document.getElementById("num2").value, true);
-				xhr.send(null);
-			}
+<body>
+	<input type="text" name="num1" id="num1" value="0" />
+	<br />
+	<input type="text" name="num2" id="num2" value="0" />
+	<br />
+	<label id="operacions"></label>
+</body>
 
-			window.addEventListener("load", inici, true);
-		</script>
-	</head>
-	<body>
-		<input type="text" name="num1" id="num1" value="0" />
-		<br />
-		<input type="text" name="num2" id="num2" value="0" />
-		<br />
-		<label id="operacions"></label>
-	</body>
 </html>

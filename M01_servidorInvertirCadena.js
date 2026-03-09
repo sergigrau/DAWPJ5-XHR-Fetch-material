@@ -11,52 +11,48 @@
  *
  * 11.11.2021
  * - Actualizacions versió nodeJS 17
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  *
  * NOTES
  * ORIGEN
  * Desenvolupament Aplicacions Web. Jesuïtes el Clot
  */
 var http = require("http");
-var url = require("url");
 var fs = require('fs');
 
 function iniciar() {
-	function onRequest(request, response) {
+	function onRequest(peticio, resposta) {
 		let sortida;
-        const baseURL = request.protocol + '://' + request.headers.host + '/';
-        const reqUrl = new URL(request.url, baseURL);
+		const protocol = peticio.headers['x-forwarded-proto'] || 'http'; 
+		const baseURL = protocol + '://' + peticio.headers.host + '/';
+		const reqUrl = new URL(peticio.url, baseURL);
         console.log("Petició per a  " + reqUrl.pathname + " rebuda.");
         const pathname = reqUrl.pathname;
 
 		if (pathname == '/formulari') {
-			response.writeHead(200, {
-				"Content-Type" : "text/html; charset=utf-8"
-			});
-
 			fs.readFile('./M01_invertirCadena.html', function(err, sortida) {
-				response.writeHead(200, {
-					'Content-Type' : 'text/html'
-				});
-				response.write(sortida);
-				response.end();
+				if (err) {
+					resposta.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+					resposta.end('Error llegint el fitxer.');
+					return;
+				}
+				resposta.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+				resposta.write(sortida);
+				resposta.end();
 			});
-
 		} else if (pathname == '/invertir') {
-			response.writeHead(200, {
-				"Content-Type" : "text/plain; charset=utf-8"
-			});
-			
-			let cadena = reqUrl.searchParams.get('cadena')
+			resposta.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+			let cadena = reqUrl.searchParams.get('cadena') || '';
 			sortida = cadena.split("").reverse().join("");
-			response.write(sortida);
-			response.end();
+			resposta.end(sortida);
 		} else {
-			response.writeHead(404, {
+			resposta.writeHead(404, {
 				"Content-Type" : "text/html; charset=utf-8"
 			});
 			sortida = "404 NOT FOUND";
-			response.write(sortida);
-			response.end();
+			resposta.write(sortida);
+			resposta.end();
 		}
 
 	}

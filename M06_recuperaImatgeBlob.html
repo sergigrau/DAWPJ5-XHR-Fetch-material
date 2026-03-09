@@ -11,6 +11,9 @@
 	06.12.2015
 	recupera una imatge com a Blob amb AJAX
 
+	09.03.2026
+	- Actualització a NodeJS 24
+
 	NOTES
 	ORIGEN
     Desenvolupament Aplicacions Web. Jesuïtes el Clot
@@ -21,18 +24,18 @@
 	<title>DAW2</title>
 	<meta name="author" content="sergi grau" />
 	<script type="text/javascript">
-		var xhr;
+		let xhr;
 
 		function inici() {
-			var xhr = new XMLHttpRequest();
+			xhr = new XMLHttpRequest();
 			xhr.open('GET', 'imatge', true);
 			xhr.responseType = 'blob';
 
 			xhr.onload = function (e) {
 				if (this.status == 200) {
-					var blob = this.response;
-					var output = document.createElement('img');
-					var URL = window.URL || window.webkitURL;
+					let blob = this.response;
+					let output = document.createElement('img');
+					let URL = window.URL || window.webkitURL;
 					output.src = URL.createObjectURL(blob);
 					document.body.appendChild(output);
 				};

@@ -12,48 +12,42 @@
  * - url path deprected
  * 11.11.2021
  * - Actualizacions versió nodeJS 17
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  * NOTES
  * ORIGEN
  * Desenvolupament Aplicacions Web. Jesuïtes el Clot
  */
 var http = require("http");
-var url = require("url");
 var fs = require('fs');
 
 function iniciar() {
 	function onRequest(request, response) {
 		let sortida;
-        const baseURL = request.protocol + '://' + request.headers.host + '/';
-        const reqUrl = new URL(request.url, baseURL);
+		const protocol = request.socket && request.socket.encrypted ? 'https' : (request.headers['x-forwarded-proto'] || 'http');
+		const baseURL = protocol + '://' + request.headers.host + '/';
+		const reqUrl = new URL(request.url, baseURL);
         console.log("Petició per a  " + reqUrl.pathname + " rebuda.");
         const pathname = reqUrl.pathname;
 
-		if (request.url == '/formulari') {
-			response.writeHead(200, {
-				"Content-Type" : "text/html; charset=utf-8"
-			});
-
+		if (pathname == '/formulari') {
 			fs.readFile('./M02_sumaNombres.html', function(err, sortida) {
-				response.writeHead(200, {
-					'Content-Type' : 'text/html'
-				});
-				
-				response.write(sortida);
-				response.end();
+				if (err) {
+					response.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+					response.end('Error llegint el fitxer.');
+					return;
+				}
+				response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+				response.end(sortida);
 			});
 
 		} else if (pathname == '/operacions') {
-			response.writeHead(200, {
-				"Content-Type" : "text/html; charset=utf-8"
-			});
 			let parametres = reqUrl.searchParams;
-
-				var num1= parseInt(parametres.get('num1'));
-				var num2= parseInt(parametres.get('num2'));
-				sortida = num1+"+"+num2+"="+(num1+num2);
-
-			response.write(sortida);
-			response.end();
+			const num1 = parseInt(parametres.get('num1')) || 0;
+			const num2 = parseInt(parametres.get('num2')) || 0;
+			sortida = num1 + "+" + num2 + "=" + (num1 + num2);
+			response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+			response.end(sortida);
 		} else {
 			response.writeHead(404, {
 				"Content-Type" : "text/html; charset=utf-8"

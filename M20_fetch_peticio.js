@@ -1,14 +1,16 @@
-/**
+/*
  * Codi que mostra el funcionament de l'API fetch
  * https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/Searching.html#//apple_ref/doc/uid/TP40017632-CH5-SW1
  * @author sergi.grau@fje.edu
  * @version 1.0 20.11.2020
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  */
 
-var cap = new Headers();
+let cap = new Headers();
 cap.append("Content-Type", "application/json");
 
-var initPropi = { method: 'GET',
+let initPropi = { method: 'GET',
                headers: cap,
                mode: 'cors',
                cache: 'default',
@@ -16,7 +18,7 @@ var initPropi = { method: 'GET',
                redirect: 'follow', 
                referrerPolicy: 'no-referrer'};
 
-var peticio = new Request('https://itunes.apple.com/search?term=queen&media=music&entity=album', initPropi);
+let peticio = new Request('https://itunes.apple.com/search?term=queen&media=music&entity=album', initPropi);
 
 fetch(peticio)
 .then(response => {

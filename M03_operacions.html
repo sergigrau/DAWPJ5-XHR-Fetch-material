@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
-	<!--
+<!--
 	document comunicacions amb backend amb Node i AJAX
 	@author sergi grau, sergi.grau@fje.edu
 	@version 1.0
@@ -11,64 +11,48 @@
 	06.12.2015
 	document comunicacions amb backend amb Node i AJAX
 
+	09.03.2026
+	- Actualització a NodeJS 24
+
 	NOTES
 	ORIGEN
     Desenvolupament Aplicacions Web. Jesuïtes el Clot
 	-->
-	<head>
-		<meta charset="utf-8" />
-		<title>DAW2</title>
-		<meta name="author" content="sergi grau" />
-		<script type="text/javascript">
 
-			var xhr;
-			var id;
+<head>
+	<meta charset="utf-8" />
+	<title>DAW2</title>
+	<meta name="author" content="sergi grau" />
+	<script type="text/javascript">
+		let xhr;
+		let id;
+		function inici() {
+			xhr = new XMLHttpRequest();
+			ajaxFunction();
+			id = setInterval(ajaxFunction, 5000);
+		}
 
+		function ajaxFunction() {
 
-			function inici() {
-				try {
-					// Firefox, Opera 8.0+, Safari, Chrome
-					xhr = new XMLHttpRequest();
-				} catch (e) {
-					// Internet Explorer
-					try {
-						xhr = new ActiveXObject("Msxml2.XMLHTTP");
-						//ie6+
-					} catch (e) {
-						try {
-							xhr = new ActiveXObject("Microsoft.XMLHTTP");
-							//ie5
-						} catch (e) {
-							alert("El teu navegador no suporta AJAX!");
-							return false;
-						}
-					}
+			//callback
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					document.getElementById("operacio").innerHTML = xhr.responseText;
+					if (document.getElementById("operacio").innerHTML.split(" ")[0] === "FINAL") clearInterval(id);
 				}
-                ajaxFunction();
-                id= setInterval(ajaxFunction, 5000);
+			};
 
-			}
+			xhr.open("GET", "obtenirOperacio?res=" + document.getElementById("resultat").value);
+			xhr.send(null);
+		}
+		window.addEventListener("load", inici, true);
+	</script>
+</head>
 
-			function ajaxFunction() {
+<body>
+	<label id="operacio"></label> =
+	<input type="text" name="resultat" id="resultat" />
 
-				//callback
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4) {
-						document.getElementById("operacio").innerHTML = xhr.responseText;
-						if(document.getElementById("operacio").innerHTML.split(" ")[0]==="FINAL") clearInterval(id);	
-					}
-				};
+</body>
 
-				xhr.open("GET", "obtenirOperacio?res="+document.getElementById("resultat").value);
-				xhr.send(null);
-			}
-
-			window.addEventListener("load", inici, true);
-		</script>
-	</head>
-	<body>
-		<label id="operacio"></label> =
-		<input type="text" name="resultat" id="resultat"/>
-
-	</body>
 </html>

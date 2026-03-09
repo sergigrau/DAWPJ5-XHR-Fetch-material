@@ -3,6 +3,8 @@
  * https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/Searching.html#//apple_ref/doc/uid/TP40017632-CH5-SW1
  * @author sergi.grau@fje.edu
  * @version 1.0 20.11.2020
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  */
 
 async function cridaRemota(url = '', cos = {}) {

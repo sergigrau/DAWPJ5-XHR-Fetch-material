@@ -10,19 +10,21 @@
  * - Aplicació amb Node.js HTTP que demana que s'encerti un numero al usuari
  * 11.11.2021
  * - Actualizacions versió nodeJS 17
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  * NOTES
  * ORIGEN
  * Desenvolupament Aplicacions Web. Jesuïtes el Clot
  */
 var http = require("http");
-var url = require("url");
 var fs = require('fs');
 var aleatori = Math.ceil(Math.random()*10);
 function iniciar() {
 	function onRequest(request, response) {
 		let sortida;
-        const baseURL = request.protocol + '://' + request.headers.host + '/';
-        const reqUrl = new URL(request.url, baseURL);
+		const protocol = request.socket && request.socket.encrypted ? 'https' : (request.headers['x-forwarded-proto'] || 'http');
+		const baseURL = protocol + '://' + request.headers.host + '/';
+		const reqUrl = new URL(request.url, baseURL);
         console.log("Petició per a  " + reqUrl.pathname + " rebuda.");
         const pathname = reqUrl.pathname;
 		
@@ -30,31 +32,24 @@ function iniciar() {
 
 		console.log("Petició per a  " + pathname + " rebuda.");
 		if (pathname == '/inici') {
-			response.writeHead(200, {
-				"Content-Type" : "text/html; charset=utf-8"
-			});
-
 			fs.readFile('./M04_trobaNombre.html', function(err, sortida) {
-				response.writeHead(200, {
-					'Content-Type' : 'text/html'
-				});
+				if (err) {
+					response.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+					response.end('Error llegint el fitxer.');
+					return;
+				}
 				console.log(aleatori);
-				response.write(sortida);
-				response.end();
+				response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+				response.end(sortida);
 			});
 
 		} else if (pathname == '/verificar') {
-			response.writeHead(200, {
-				"Content-Type" : "text/html; charset=utf-8"
-			});
-			if (res==aleatori) {
-				response.write('CORRECTE');
-
+			response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+			if (Number(res) === aleatori) {
+				response.end('CORRECTE');
 			} else {
-				response.write('INCORRECTE');
-
+				response.end('INCORRECTE');
 			}
-			response.end();
 		} else {
 			response.writeHead(404, {
 				"Content-Type" : "text/html; charset=utf-8"

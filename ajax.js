@@ -1,3 +1,8 @@
+/*
+ * 09.03.2026
+ * - Actualització a NodeJS 24
+ */
+
 let xhr;
 
 function inici() {

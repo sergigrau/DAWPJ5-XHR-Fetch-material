@@ -1,0 +1,13 @@
+{
+  "name": "dawpj5-xhr-fetch-material",
+  "version": "1.0.0",
+  "description": "Material examples XHR/Fetch",
+  "main": "M01_indexInverirCadena.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node M01_indexInverirCadena.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

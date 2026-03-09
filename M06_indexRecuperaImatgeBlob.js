@@ -8,6 +8,8 @@
  * CHANGELOG
  * 12.12.16
  * - arxiu principal que arrenca el servidor HTTP
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  *
  * NOTES
  * ORIGEN

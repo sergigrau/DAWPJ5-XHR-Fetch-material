@@ -1,3 +1,8 @@
+/*
+ * 09.03.2026
+ * - Actualització a NodeJS 24
+ */
+
 const http = require('http');
 const fs = require('fs');
 

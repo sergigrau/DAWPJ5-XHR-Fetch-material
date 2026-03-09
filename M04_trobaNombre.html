@@ -11,6 +11,9 @@
 	06.12.2015
 	document comunicacions amb backend amb Node i AJAX
 
+	09.03.2026
+	- Actualització a NodeJS 24
+
 	NOTES
 	ORIGEN
     Desenvolupament Aplicacions Web. Jesuïtes el Clot
@@ -21,35 +24,19 @@
 	<title>DAW2</title>
 	<meta name="author" content="sergi grau" />
 	<script type="text/javascript">
-		var xhr;
+		let xhr;
 
 		function inici() {
-			try {
-				// Firefox, Opera 8.0+, Safari, Chrome
-				xhr = new XMLHttpRequest();
-			} catch (e) {
-				// Internet Explorer
-				try {
-					xhr = new ActiveXObject("Msxml2.XMLHTTP");
-					//ie6+
-				} catch (e) {
-					try {
-						xhr = new ActiveXObject("Microsoft.XMLHTTP");
-						//ie5
-					} catch (e) {
-						alert("El teu navegador no suporta AJAX!");
-						return false;
-					}
-				}
-			}
+
+			xhr = new XMLHttpRequest();
 			ajaxFunction();
-			var id = setInterval(ajaxFunction, 5000);
+			let id = setInterval(ajaxFunction, 5000);
 		}
 
 		function ajaxFunction() {
 
 			//callback
-			xhr.onreadystatechange = function() {
+			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
 					document.getElementById("esCorrecte").innerHTML = xhr.responseText;
 					if (esCorrecte == 'CORRECTE') clearInterval(id);

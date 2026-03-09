@@ -10,6 +10,8 @@
  * - arxiu principal que arrenca el servidor HTTP
  * 11.11.2021
  * - Actualizacions versió nodeJS 17
+ * 09.03.2026
+ * - Actualització a NodeJS 24
  * NOTES
  * ORIGEN
  * Desenvolupament Aplicacions Web. Jesuïtes el Clot
