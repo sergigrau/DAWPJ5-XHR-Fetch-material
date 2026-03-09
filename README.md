@@ -6,18 +6,7 @@
 ![alt tag](https://github.com/sergigrau/DAWM06UF4-2-AJAX-exercicis/blob/master/imatges/fetch.png)
 ![alt tag](https://github.com/sergigrau/DAWM06UF4-2-AJAX-exercicis/blob/master/imatges/js.png)
 
-<h1>AJAX with Node.js Workshop.</h1>
-
-1.XHR <br/>
-2.XHR2<br/>
-3.NODEJS<br/>
-4.XML<br/>
-5.JSON<br/>
-6.Promises<br/>
-7.Async Functions<br/>
-8.Fetch API<br/>
-
-**MXX Programs (one-line English descriptions)**
+<h1>AJAX, FETCH with Node.js Workshop.</h1>
 
 - M01 — Reverse a string by sending it to the server and displaying the reversed result. (Technologies: XHR, Node.js)
 - M02 — Send two numbers to the server and display their sum. (Technologies: XHR, Node.js)
