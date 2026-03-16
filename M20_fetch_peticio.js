@@ -1,31 +1,20 @@
-/*
+/**
  * Codi que mostra el funcionament de l'API fetch
  * https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/Searching.html#//apple_ref/doc/uid/TP40017632-CH5-SW1
  * @author sergi.grau@fje.edu
  * @version 1.0 20.11.2020
- * 09.03.2026
- * - Actualització a NodeJS 24
  */
 
-let cap = new Headers();
-cap.append("Content-Type", "application/json");
+const proxyUrl = 'http://127.0.0.1:3000/itunes?term=queen&media=music&entity=album';
 
-let initPropi = { method: 'GET',
-               headers: cap,
-               mode: 'cors',
-               cache: 'default',
-               credentials: 'same-origin',
-               redirect: 'follow', 
-               referrerPolicy: 'no-referrer'};
-
-let peticio = new Request('https://itunes.apple.com/search?term=queen&media=music&entity=album', initPropi);
-
-fetch(peticio)
-.then(response => {
-  return response.json();
-})
-.then(dades => {
-  dades.results.forEach(element => {
-    console.log(element.artistName);   
-  });
-});
+fetch(proxyUrl)
+  .then(response => {
+    console.log('Status:', response.status, 'Type:', response.type);
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    return response.json();
+  })
+  .then(dades => {
+    if (!dades || !dades.results) return console.warn('No results', dades);
+    dades.results.forEach(el => console.log(el.artistName));
+  })
+  .catch(err => console.error('Fetch error:', err));
